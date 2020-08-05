@@ -146,7 +146,7 @@ std::array<sf::Color, 9> ImageProcessor::getNeighbourColours3x3(int x, int y) {
 	return std::array<sf::Color, 9>{topLeft, topMiddle, topRight, centreLeft, centreMiddle, centreRight, bottomLeft, bottomMiddle, bottomRight};
 }
 
-int ImageProcessor::limitToRange(int input, int max, int min) const {
+int ImageProcessor::limitToRange(int input, int min, int max) const {
 	if (input < min) {
 		return min;
 	}
