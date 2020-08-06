@@ -1,8 +1,8 @@
 #include "ImageProcessor.h"
 
-ImageProcessor::ImageProcessor() {}
+ImageProcessor::ImageProcessor() : kernel(std::array<float, 9>{0, 0, 0, 0, 1, 0, 0, 0, 0}), outputFile("output.png") {}
 
-ImageProcessor::ImageProcessor(const sf::Image& inputImage, std::array<float, 9> inputKernel) : image(inputImage), kernel(inputKernel) {
+ImageProcessor::ImageProcessor(const sf::Image& inputImage, std::array<float, 9> inputKernel, std::string file) : image(inputImage), kernel(inputKernel), outputFile(file) {
 }
 
 void ImageProcessor::applyConvolution() {
@@ -34,7 +34,8 @@ void ImageProcessor::applyConvolution() {
 			newImage.setPixel(x, y, accumulatedColour);
 		}
 	}
-	newImage.saveToFile("outputImage.png");
+	outputImage = newImage;
+	newImage.saveToFile(outputFile);
 }
 
 // Gets the colours around a given pixel of an image.
@@ -153,4 +154,21 @@ int ImageProcessor::limitToRange(int input, int min, int max) const {
 	if (input > max) {
 		return max;
 	}
+	else return input;
+}
+
+void ImageProcessor::setFileOutputLocation(std::string imageOutputFile) {
+	outputFile = imageOutputFile;
+}
+
+void ImageProcessor::setKernel(std::array<float, 9> inputKernel) {
+	kernel = inputKernel;
+}
+
+void ImageProcessor::setInputImage(sf::Image newImage) {
+	image = newImage;
+}
+
+sf::Image* ImageProcessor::getOutputImage() {
+	return &outputImage;
 }
