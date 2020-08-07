@@ -16,15 +16,17 @@ Application::Application(sf::String inputImageFile, sf::String imageOutputFile, 
 		originalImageAspectRatio = static_cast<float>(originalImage.getSize().x) / originalImage.getSize().y;
 		resizedOriginalTexture = createTexture(originalImage, screenWidth/2, screenHeight/originalImageAspectRatio);
 		resizedOriginalSprite.setTexture(resizedOriginalTexture);
-		resizedOriginalSprite.setPosition(0, 0);
+		// Set preview image to middle of screen
+		resizedOriginalSprite.setPosition(0, (screenHeight - screenHeight / originalImageAspectRatio) * 0.5f);
 
 		ip = ImageProcessor(originalImage, (*kernelArray)[0], imageOutputFile);
 		ip.applyConvolution();
 		resizedAlteredTexture = createTexture(*ip.getOutputImage(), screenWidth/2, screenHeight/originalImageAspectRatio);
 		resizedAlteredSprite.setTexture(resizedAlteredTexture);
-		resizedAlteredSprite.setPosition(screenWidth/2, 0);
+		// Set preview image to middle of screen
+		resizedAlteredSprite.setPosition(screenWidth/2, (screenHeight - screenHeight / originalImageAspectRatio)*0.5f);
 	}
-	
+
 	// Text
 	font.loadFromFile(inputFontFile);
 	originalText = createText(font, "Input Image Preview", 0, 0);
